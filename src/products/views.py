@@ -1,7 +1,19 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from products.forms import ProductForm
 from products.models import Product
+
+
+def create_view(request, *args, **kwargs):
+    form = ProductForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = ProductForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'create.html', context)
 
 
 def home_view(request, *args, **kwargs):
