@@ -2,17 +2,8 @@
 
 {% block content %}
 
-
-<h1>Hello World!</h1>
-{{ title }}
-{{ price }}
-
-<ul>
-{% for item in list_item %}
-    {% if item == 123 %}
-        <li>{{ item|add:10 }}</li>
-    {% endif %}
-    <li>{{ item }}</li>
+{% for item in products %}
+    <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

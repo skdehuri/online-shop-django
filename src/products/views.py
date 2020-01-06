@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from products.forms import ProductForm
 from products.models import Product
@@ -18,10 +18,9 @@ def create_view(request, *args, **kwargs):
 
 def home_view(request, *args, **kwargs):
     # return HttpResponse("<h1>Hello World!</h1>")
-    product_object = Product.objects.get(id=1)
+    product_objects = Product.objects.all()
     context = {
-        'title': product_object.title,
-        'price': product_object.price
+        'products': product_objects
     }
     return render(request, 'home.html', context)
 
@@ -32,3 +31,12 @@ def about_view(request, *args, **kwargs):
         'list_item': [123, 345, 567, 789]
     }
     return render(request, 'about.html', context)
+
+
+def detail_view(request, id, *args, **kwargs):
+    # return HttpResponse("<h1>Hello World!</h1>")
+    product_objects = get_object_or_404(Product, id=id)
+    context = {
+        'product': product_objects
+    }
+    return render(request, 'detail.html', context)
