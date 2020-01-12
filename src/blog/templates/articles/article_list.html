@@ -4,8 +4,8 @@
 
 <a href="{% url 'create' %}">Add Product</a>
 <ul>
-    {% for item in products %}
-    <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+    {% for item in object_list %}
+    <li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

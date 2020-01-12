@@ -40,3 +40,5 @@ def detail_view(request, id, *args, **kwargs):
         'product': product_objects
     }
     return render(request, 'detail.html', context)
+
+
