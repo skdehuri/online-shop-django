@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<a href="{% url 'create' %}">Add Product</a>
+<a href="{% url 'products:create' %}">Add Product</a>
 <ul>
     {% for item in products %}
     <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
