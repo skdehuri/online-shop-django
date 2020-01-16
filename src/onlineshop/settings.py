@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'products',
     'blog',
     'rest_framework',
-    'snippets'
+    'snippets',
+    'channels',
+    'chat'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'onlineshop.urls'
+ASGI_APPLICATION = "onlineshop.routing.application"
 
 TEMPLATES = [
     {
