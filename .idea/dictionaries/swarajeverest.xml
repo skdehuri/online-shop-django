@@ -2,6 +2,7 @@
   <dictionary name="swarajeverest">
     <words>
       <w>endblock</w>
+      <w>websocket</w>
     </words>
   </dictionary>
 </component>
