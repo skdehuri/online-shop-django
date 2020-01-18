@@ -11,7 +11,7 @@ STYLE_CHOICES = sorted([(item, item) for item in get_all_styles()])
 
 
 class Snippet(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
+	creation_time = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=100, blank=True, default='')
     code = models.TextField()
@@ -22,7 +22,7 @@ class Snippet(models.Model):
     highlighted = models.TextField()
 
     class Meta:
-        ordering = ['created']
+        ordering = ['creation_time']
 
     def save(self, *args, **kwargs):
         """
