@@ -1,32 +1,30 @@
 import json
 
 from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 
-class ChatConsumer(WebsocketConsumer):
+class ChatConsumer(AsyncWebsocketConsumer):
 
-    def __init__(self):
-        self.room_name = ''
-        self.room_group_name = ''
-        super(ChatConsumer, self).__init__()
-
-    def connect(self):
+    async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
 
-        async_to_sync(self.channel_layer.group_add)(
+        # Join room group
+        await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
 
-        self.accept()
+        await self.accept()
 
-    def receive(self, text_data=None, bytes_data=None):
+    # Receive message from WebSocket
+    async def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
-        async_to_sync(self.channel_layer.group_send)(
+        # Send message to room group
+        await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
@@ -34,16 +32,18 @@ class ChatConsumer(WebsocketConsumer):
             }
         )
 
-    def disconnect(self, close_code):
-        async_to_sync(self.channel_layer.group_discard)(
+    async def disconnect(self, close_code):
+        # Leave room group
+        await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
 
-    def chat_message(self, event):
+    # Receive message from room group
+    async def chat_message(self, event):
         message = event['message']
 
         # Send message to WebSocket
-        self.send(text_data=json.dumps({
+        await self.send(text_data=json.dumps({
             'message': message
         }))
