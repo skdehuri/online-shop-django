@@ -5,3 +5,4 @@ pygments
 djangorestframework-camel-case
 channels
 channels_redis
+django-redis-cache
